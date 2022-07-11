@@ -54,9 +54,7 @@ class _homePageState extends State<homePage> {
             ElevatedButton(
               child: Text("Post"),
               onPressed: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => postData(),));
+              Navigator.pushNamed(context, '/postData');
             }), 
           ],
         ),
