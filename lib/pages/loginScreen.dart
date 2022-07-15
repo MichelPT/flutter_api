@@ -17,7 +17,7 @@ class _loginScreenState extends State<loginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text("Login",
@@ -47,6 +47,8 @@ class _loginScreenState extends State<loginScreen> {
             ),
           ),
 
+          SizedBox(height: 15),
+
           Container(
                    width: MediaQuery.of(context).size.width / 1.5,
                    child: ElevatedButton(
@@ -59,18 +61,20 @@ class _loginScreenState extends State<loginScreen> {
                       )
                     ),
                     onPressed:() async {
-                      String text = "";
-                      if (_emailController.text.isEmpty||_passwordController.text.isEmpty) {
-                        text = "Please input your username or password";
-                      } 
-                      SnackBar snackBar = SnackBar(
-                        content: Text(text));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                    await firebaseAuth.signInWithEmailAndPassword(
+                      try {
+                        await firebaseAuth.signInWithEmailAndPassword(
                       email: _emailController.text, 
                       password: _passwordController.text
                       ).then((value) => Navigator.popAndPushNamed(context, '/homePage'));
+                      } catch (e) {
+                      }
+                      String text = "";
+                      if (_emailController.text.isEmpty||_passwordController.text.isEmpty) {
+                        text = "Please input your email or password";
+                      } else {text = "Incorrect email or password";}
+                      SnackBar snackBar = SnackBar(
+                        content: Text(text));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Text('Login'),
                   ),  
